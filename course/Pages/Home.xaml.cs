@@ -23,7 +23,7 @@ namespace course.Pages
     public partial class Home : UserControl
     {
         private DFModel model;
-        private int k1 = 1;
+        private int k1 = 2;
         private int k2 = 2;
         private double ro = 0.1;
 
@@ -33,6 +33,14 @@ namespace course.Pages
             set
             {
                 k1 = Convert.ToInt32(value);
+                if (k1 < 2)
+                {
+                    k1 = 2;
+                }
+                if (k1 > 5)
+                {
+                    k1 = 5;
+                }
             }
         }
         public string K2 {
@@ -40,6 +48,14 @@ namespace course.Pages
             set
             {
                 k2 = Convert.ToInt32(value);
+                if (k2 < 2)
+                {
+                    k2 = 2;
+                }
+                if (k2 > 5)
+                {
+                    k2 = 5;
+                }
             }
         }
         public Home()
@@ -56,6 +72,12 @@ namespace course.Pages
             using (var fout = new StreamWriter(saveFileDialog.FileName))
             {
                 fout.WriteLine(String.Join(" ", model.tet().Select(v => v.ToString())));
+                fout.WriteLine(String.Format("Fa = {0}, F = {1}, {2}", model.Fa.Item1, model.Fa.Item2, model.Fa.Item1 < model.Fa.Item2 ? "принимается": "отвергается"));
+                fout.WriteLine(String.Format("Fb = {0}, F = {1}, {2}", model.Fb.Item1, model.Fb.Item2, model.Fb.Item1 < model.Fb.Item2 ? "принимается" : "отвергается"));
+                foreach (var l in model.levels)
+                {
+                    fout.WriteLine(String.Format("{0}: f = {1}, F = {2}, {3}", l.Item1, l.Item2, l.Item3, l.Item2 < l.Item3 ? "принимается" : "отвергается"));
+                }
             }
 
         }
